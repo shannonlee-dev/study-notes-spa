@@ -16,7 +16,9 @@ export default function Layout() {
         </div>
         <nav className="site-nav" aria-label="주요 메뉴">
           <NavLink to="/">홈</NavLink>
-          <NavLink to="/notes">노트</NavLink>
+          <NavLink to="/notes" end>
+            노트
+          </NavLink>
           <NavLink to="/notes/new">등록</NavLink>
           <NavLink to="/profile">프로필</NavLink>
           <NavLink to="/login">{isAuthenticated ? '세션' : '로그인'}</NavLink>
