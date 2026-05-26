@@ -30,7 +30,7 @@ export default function LoginPage() {
     return (
       <ErrorState
         title="환경변수가 필요합니다."
-        message="VITE_SUPABASE_URL과 VITE_SUPABASE_ANON_KEY를 등록하면 로그인과 CRUD가 동작합니다."
+        message="VITE_SUPABASE_URL과 VITE_SUPABASE_PUBLISHABLE_KEY를 등록하면 로그인과 CRUD가 동작합니다."
       />
     );
   }

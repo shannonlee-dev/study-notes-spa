@@ -33,7 +33,7 @@ cp .env.example .env
 
 ```text
 VITE_SUPABASE_URL=<Supabase project URL>
-VITE_SUPABASE_ANON_KEY=<Supabase anon public key>
+VITE_SUPABASE_PUBLISHABLE_KEY=<Supabase publishable key>
 ```
 
 `.env`와 `.env.local`은 `.gitignore`에 포함되어 있습니다. 실제 키는 GitHub에 푸시하지 않고, 배포 서비스 대시보드의 Environment Variables에 별도로 등록합니다.
@@ -85,5 +85,6 @@ props는 부모가 자식에게 전달하는 입력값으로 사용했고, state
 
 ## 제출 링크
 
-- 배포 URL: `<배포 후 Vercel/Netlify/Firebase Hosting URL 입력>`
-- GitHub 저장소 URL: `<GitHub 저장소 URL 입력>`
+- 배포 URL: `https://codyssey-mission.vercel.app/`
+- GitHub 저장소 URL: `https://github.com/shannonlee-dev/codyssey-mission`
+- 과제 폴더 URL: `https://github.com/shannonlee-dev/codyssey-mission/tree/main/2026-main-4-2`
