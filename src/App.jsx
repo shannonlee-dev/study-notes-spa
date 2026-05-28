@@ -1,4 +1,4 @@
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Layout from './components/Layout.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import HomePage from './pages/HomePage.jsx';
@@ -42,8 +42,6 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="/items" element={<Navigate to="/notes" replace />} />
-        <Route path="/items/:id" element={<Navigate to="/notes/:id" replace />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
