@@ -1,7 +1,7 @@
 import { NavLink, Outlet } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext.jsx';
 import { useToast } from '../context/ToastContext.jsx';
-import Button from './Button.jsx';
+import Button from '../components/ui/Button.jsx';
 
 export default function Layout() {
   const { isAuthenticated, signOut, user } = useAuth();

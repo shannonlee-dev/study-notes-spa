@@ -1,9 +1,9 @@
 import { useNavigate, useParams } from 'react-router-dom';
-import ErrorState from '../components/ErrorState.jsx';
-import Loading from '../components/Loading.jsx';
-import NoteForm from '../components/NoteForm.jsx';
+import ErrorState from '../components/ui/ErrorState.jsx';
+import Loading from '../components/ui/Loading.jsx';
+import NoteForm from '../features/notes/components/NoteForm.jsx';
 import { useToast } from '../context/ToastContext.jsx';
-import { useNoteDetail, useNoteMutations } from '../hooks/useNotes.js';
+import { useNoteDetail, useNoteMutations } from '../features/notes/hooks/useNotes.js';
 
 export default function EditNotePage() {
   const { id } = useParams();

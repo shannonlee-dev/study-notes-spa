@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { requireSupabase } from '../lib/supabase.js';
+import { requireSupabase } from '../../../lib/supabase.js';
 
 const TABLE = 'notes';
 
@@ -59,11 +59,17 @@ export function useNotes() {
     async (id) => {
       setError('');
       const client = requireSupabase();
-      const { error: requestError } = await client.from(TABLE).delete().eq('id', id);
+      const { data, error: requestError } = await client.from(TABLE).delete().eq('id', id).select('id');
 
       if (requestError) {
         setError(requestError.message);
         throw requestError;
+      }
+
+      if (!data?.length) {
+        const permissionError = new Error('로그인 후 삭제할 수 있습니다.');
+        setError(permissionError.message);
+        throw permissionError;
       }
 
       await fetchNotes();
@@ -115,11 +121,17 @@ export function useNoteDetail(id) {
 
   const deleteNote = useCallback(async () => {
     const client = requireSupabase();
-    const { error: requestError } = await client.from(TABLE).delete().eq('id', id);
+    const { data, error: requestError } = await client.from(TABLE).delete().eq('id', id).select('id');
 
     if (requestError) {
       setError(requestError.message);
       throw requestError;
+    }
+
+    if (!data?.length) {
+      const permissionError = new Error('로그인 후 삭제할 수 있습니다.');
+      setError(permissionError.message);
+      throw permissionError;
     }
   }, [id]);
 

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Button from '../components/Button.jsx';
-import ErrorState from '../components/ErrorState.jsx';
-import TextInput from '../components/TextInput.jsx';
+import Button from '../components/ui/Button.jsx';
+import ErrorState from '../components/ui/ErrorState.jsx';
+import TextInput from '../components/ui/TextInput.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 import { hasSupabaseConfig } from '../lib/supabase.js';
 

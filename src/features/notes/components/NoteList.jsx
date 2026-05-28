@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import Badge from './Badge.jsx';
-import Card from './Card.jsx';
+import Badge from '../../../components/ui/Badge.jsx';
+import Card from '../../../components/ui/Card.jsx';
 
 export default function NoteList({ notes }) {
   return (

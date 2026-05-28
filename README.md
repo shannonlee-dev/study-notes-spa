@@ -66,15 +66,38 @@ create table notes (
 - `/profile`: 보호 라우트, 로그인 사용자 표시
 - `*`: Not Found
 
+## 디렉토리 구조와 설계 기준
+
+컴포넌트는 재사용 범위와 도메인 의존도를 기준으로 나눴습니다. 단순히 파일 수를 분산하기보다, 어떤 파일이 앱의 정책을 알고 어떤 파일이 순수 UI로 남아야 하는지 드러내는 구조를 목표로 했습니다.
+
+`src/components/ui`에는 `Button`, `TextInput`, `TextArea`, `Card`, `Loading`, `ErrorState`, `EmptyState`, `Badge`처럼 서비스 주제와 데이터 구조를 모르는 공용 UI를 둡니다. 이 컴포넌트들은 props만으로 표시가 달라지고, Supabase나 라우팅 정책을 직접 알지 않습니다.
+
+`src/features/notes`에는 노트 도메인에 묶인 코드만 둡니다. `NoteList`, `NoteForm`, `useNotes`, `useNoteDetail`, `useNoteMutations`는 `notes` 테이블과 노트 작성 흐름을 알기 때문에 공용 컴포넌트가 아니라 기능 단위 코드로 분류했습니다.
+
+`src/layout`은 앱 전체 껍데기와 내비게이션을 담당합니다. `src/routes`는 인증이 필요한 페이지를 막는 `ProtectedRoute`처럼 라우팅 정책을 담당합니다. `src/pages`는 라우트에 직접 연결되는 화면 단위만 유지합니다.
+
+```text
+src/
+├── components/
+│   └── ui/              # 도메인을 모르는 공용 UI
+├── features/
+│   └── notes/
+│       ├── components/  # notes 기능 전용 화면 조각
+│       └── hooks/       # notes 원격 데이터 상태와 mutation
+├── layout/              # 앱 shell, navigation, toast 배치
+├── routes/              # 라우팅 정책과 route guard
+├── pages/               # URL에 매핑되는 페이지
+├── context/             # 인증과 toast 전역 상태
+└── lib/                 # Supabase 클라이언트와 검증 유틸
+```
+
 ## 컴포넌트와 상태 설계
 
-페이지 컴포넌트는 `src/pages`에 두고, 재사용 UI는 `src/components`에 분리했습니다. `Button`, `TextInput`, `TextArea`, `Card`, `Loading`, `ErrorState`, `EmptyState`, `Badge`, `NoteList`, `NoteForm`, `Layout`, `ProtectedRoute`는 props에 따라 표시나 동작이 달라집니다.
-
-props는 부모가 자식에게 전달하는 입력값으로 사용했고, state는 사용자의 입력, 요청 상태, 원격 데이터처럼 화면을 다시 그려야 하는 값에 배치했습니다. 폼 입력 state는 `NoteForm` 안에 두고, 목록/상세 데이터 state와 로딩/에러 state는 `useNotes`, `useNoteDetail`, `useNoteMutations` 커스텀 훅에 두었습니다.
+props는 부모가 자식에게 전달하는 입력값으로 사용했고, state는 사용자의 입력, 요청 상태, 원격 데이터처럼 화면을 다시 그려야 하는 값에 배치했습니다. 폼 입력 state는 `features/notes/components/NoteForm` 안에 두고, 목록/상세 데이터 state와 로딩/에러 state는 `features/notes/hooks/useNotes.js`의 커스텀 훅에 두었습니다.
 
 `useEffect`는 목록과 상세 데이터를 불러올 때 실행됩니다. 의존성 배열에는 `fetchNotes`, `fetchNote`처럼 `useCallback`으로 고정한 요청 함수가 들어가므로 라우트 파라미터 `id`가 바뀌면 상세 요청이 다시 실행됩니다.
 
-비동기 흐름은 로딩, 성공, 실패, 빈 상태를 공통 컴포넌트로 표현합니다. `Loading`, `ErrorState`, `EmptyState`를 핵심 화면에서 재사용해 페이지마다 상태 UI를 새로 만들지 않았습니다.
+비동기 흐름은 로딩, 성공, 실패, 빈 상태를 공용 UI 컴포넌트로 표현합니다. `Loading`, `ErrorState`, `EmptyState`를 핵심 화면에서 재사용해 페이지마다 상태 UI를 새로 만들지 않았습니다.
 
 라우팅, 컴포넌트, 상태, 이벤트, 렌더링 연결은 다음 흐름으로 확인할 수 있습니다.
 

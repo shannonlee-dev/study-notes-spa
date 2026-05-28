@@ -1,4 +1,4 @@
-import Card from '../components/Card.jsx';
+import Card from '../components/ui/Card.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 
 export default function ProfilePage() {

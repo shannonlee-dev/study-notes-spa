@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import Button from '../components/Button.jsx';
-import EmptyState from '../components/EmptyState.jsx';
+import Button from '../components/ui/Button.jsx';
+import EmptyState from '../components/ui/EmptyState.jsx';
 
 export default function NotFoundPage() {
   return (

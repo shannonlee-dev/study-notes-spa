@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
-import Button from '../components/Button.jsx';
-import EmptyState from '../components/EmptyState.jsx';
-import ErrorState from '../components/ErrorState.jsx';
-import Loading from '../components/Loading.jsx';
-import NoteList from '../components/NoteList.jsx';
-import TextInput from '../components/TextInput.jsx';
-import { useNotes } from '../hooks/useNotes.js';
+import Button from '../components/ui/Button.jsx';
+import EmptyState from '../components/ui/EmptyState.jsx';
+import ErrorState from '../components/ui/ErrorState.jsx';
+import Loading from '../components/ui/Loading.jsx';
+import NoteList from '../features/notes/components/NoteList.jsx';
+import TextInput from '../components/ui/TextInput.jsx';
+import { useNotes } from '../features/notes/hooks/useNotes.js';
 
 export default function NotesPage() {
   const { filteredNotes, filter, setFilter, loading, error, refetch } = useNotes();

@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react';
-import { validateNote } from '../lib/validation.js';
-import Button from './Button.jsx';
-import TextArea from './TextArea.jsx';
-import TextInput from './TextInput.jsx';
+import { validateNote } from '../../../lib/validation.js';
+import Button from '../../../components/ui/Button.jsx';
+import TextArea from '../../../components/ui/TextArea.jsx';
+import TextInput from '../../../components/ui/TextInput.jsx';
 
 const emptyValues = {
   title: '',
