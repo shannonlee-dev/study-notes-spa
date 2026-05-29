@@ -12,7 +12,7 @@ const emptyValues = {
 };
 
 export default function NoteForm({ initialValues = emptyValues, submitLabel, submitting, requestError, onSubmit }) {
-  const [values, setValues] = useState({ ...emptyValues, ...initialValues });
+  const [values, setValues] = useState({ ...emptyValues, ...initialValues }); /* 초기값과 빈값을 병합하여 누락된 필드가 없도록 함 */
   const [errors, setErrors] = useState({});
 
   const preview = useMemo(
