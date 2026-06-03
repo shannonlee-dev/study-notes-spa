@@ -1,33 +1,35 @@
-# Field Notes
+# Study Notes SPA
 
-Field Notes는 React 18 기반 SPA입니다. 서비스 주제는 학습 기록 관리이고, 단일 핵심 데이터는 Supabase `notes` 테이블입니다. 목록, 상세, 등록, 수정, 삭제 흐름은 모두 원격 Supabase 데이터를 기준으로 작성했습니다.
+Study Notes is a React 18 single-page application for managing structured learning notes with Supabase-backed remote data. It supports listing, filtering, detail views, creation, editing, deletion, authentication-aware routes, and profile display.
 
-## 기술 스택
+The app is organized around predictable data flow: remote reads and mutations are isolated in feature hooks, reusable UI components stay domain-agnostic, and route guards keep protected actions separate from public navigation.
+
+## Stack
 
 - React 18
 - Vite
 - React Router
 - Supabase JavaScript SDK
-- 순수 CSS
+- CSS
 
-## 로컬 설치와 실행
+## Run
 
-```sh
+```bash
 npm install
 npm run dev
 ```
 
-프로덕션 빌드:
+Production build:
 
-```sh
+```bash
 npm run build
 ```
 
-## 환경변수
+## Environment
 
-`.env.example`을 `.env`로 복사하고 Supabase 값을 입력합니다.
+Copy `.env.example` to `.env` and fill in Supabase values.
 
-```sh
+```bash
 cp .env.example .env
 ```
 
@@ -36,11 +38,11 @@ VITE_SUPABASE_URL=<Supabase project URL>
 VITE_SUPABASE_PUBLISHABLE_KEY=<Supabase publishable key>
 ```
 
-`.env`와 `.env.local`은 `.gitignore`에 포함되어 있습니다. 실제 키는 GitHub에 푸시하지 않고, 배포 서비스 대시보드의 Environment Variables에 별도로 등록합니다.
+Real keys are excluded from Git and should be configured in the deployment dashboard.
 
-## Supabase 데이터
+## Data Model
 
-`notes` 테이블 예시:
+Example `notes` table:
 
 ```sql
 create table notes (
@@ -53,61 +55,41 @@ create table notes (
 );
 ```
 
-인증 보너스를 확인하려면 Supabase Auth에서 이메일/비밀번호 로그인을 활성화하고 테스트 사용자를 준비합니다. 등록, 수정, 삭제 페이지와 프로필 페이지는 보호 라우트입니다.
+## Routes
 
-## 라우트
+| Route | Purpose |
+| --- | --- |
+| `/` | App overview |
+| `/login` | Supabase Auth login |
+| `/notes` | Remote notes list, filter, empty state, error state |
+| `/notes/:id` | Detail view and deletion |
+| `/notes/new` | Protected create form |
+| `/notes/:id/edit` | Protected edit form |
+| `/profile` | Protected user profile |
+| `*` | Not Found |
 
-- `/`: 서비스 주제와 핵심 데이터 안내
-- `/login`: Supabase Auth 로그인
-- `/notes`: 원격 노트 목록, 필터, 빈 상태, 에러 상태
-- `/notes/:id`: 라우트 파라미터 기반 상세 조회와 삭제
-- `/notes/new`: 보호 라우트, controlled input 등록 폼
-- `/notes/:id/edit`: 보호 라우트, 수정 폼
-- `/profile`: 보호 라우트, 로그인 사용자 표시
-- `*`: Not Found
-
-## 디렉토리 구조와 설계 기준
-
-컴포넌트는 재사용 범위와 도메인 의존도를 기준으로 나눴습니다. 단순히 파일 수를 분산하기보다, 어떤 파일이 앱의 정책을 알고 어떤 파일이 순수 UI로 남아야 하는지 드러내는 구조를 목표로 했습니다.
-
-`src/components/ui`에는 `Button`, `TextInput`, `TextArea`, `Card`, `Loading`, `ErrorState`, `EmptyState`, `Badge`처럼 서비스 주제와 데이터 구조를 모르는 공용 UI를 둡니다. 이 컴포넌트들은 props만으로 표시가 달라지고, Supabase나 라우팅 정책을 직접 알지 않습니다.
-
-`src/features/notes`에는 노트 도메인에 묶인 코드만 둡니다. `NoteList`, `NoteForm`, `useNotes`, `useNoteDetail`, `useNoteMutations`는 `notes` 테이블과 노트 작성 흐름을 알기 때문에 공용 컴포넌트가 아니라 기능 단위 코드로 분류했습니다.
-
-`src/layout`은 앱 전체 껍데기와 내비게이션을 담당합니다. `src/routes`는 인증이 필요한 페이지를 막는 `ProtectedRoute`처럼 라우팅 정책을 담당합니다. `src/pages`는 라우트에 직접 연결되는 화면 단위만 유지합니다.
+## Project Structure
 
 ```text
 src/
 ├── components/
-│   └── ui/              # 도메인을 모르는 공용 UI
+│   └── ui/              # domain-agnostic UI
 ├── features/
 │   └── notes/
-│       ├── components/  # notes 기능 전용 화면 조각
-│       └── hooks/       # notes 원격 데이터 상태와 mutation
-├── layout/              # 앱 shell, navigation, toast 배치
-├── routes/              # 라우팅 정책과 route guard
-├── pages/               # URL에 매핑되는 페이지
-├── context/             # 인증과 toast 전역 상태
-└── lib/                 # Supabase 클라이언트와 검증 유틸
+│       ├── components/  # notes-specific UI
+│       └── hooks/       # remote data and mutations
+├── layout/              # app shell and navigation
+├── routes/              # route guards
+├── pages/               # route-level screens
+├── context/             # auth and toast state
+└── lib/                 # Supabase client and validation helpers
 ```
 
-## 컴포넌트와 상태 설계
+## Design Notes
 
-props는 부모가 자식에게 전달하는 입력값으로 사용했고, state는 사용자의 입력, 요청 상태, 원격 데이터처럼 화면을 다시 그려야 하는 값에 배치했습니다. 폼 입력 state는 `features/notes/components/NoteForm` 안에 두고, 목록/상세 데이터 state와 로딩/에러 state는 `features/notes/hooks/useNotes.js`의 커스텀 훅에 두었습니다.
-
-`useEffect`는 목록과 상세 데이터를 불러올 때 실행됩니다. 의존성 배열에는 `fetchNotes`, `fetchNote`처럼 `useCallback`으로 고정한 요청 함수가 들어가므로 라우트 파라미터 `id`가 바뀌면 상세 요청이 다시 실행됩니다.
-
-비동기 흐름은 로딩, 성공, 실패, 빈 상태를 공용 UI 컴포넌트로 표현합니다. `Loading`, `ErrorState`, `EmptyState`를 핵심 화면에서 재사용해 페이지마다 상태 UI를 새로 만들지 않았습니다.
-
-라우팅, 컴포넌트, 상태, 이벤트, 렌더링 연결은 다음 흐름으로 확인할 수 있습니다.
-
-- 필터 입력 변경: `NotesPage`의 `filter` state가 바뀌고 `filteredNotes`가 다시 계산되어 목록 렌더링이 변합니다.
-- 폼 입력 변경: `NoteForm`의 controlled input state가 바뀌고 미리보기 패널이 즉시 변합니다.
-- 등록/수정 제출: submit 이벤트가 Supabase insert/update 호출로 이어지고 성공 후 상세 페이지로 이동하며 알림 state가 표시됩니다.
-- 삭제 클릭: delete 이벤트가 Supabase delete 호출로 이어지고 목록 페이지 이동과 알림 렌더링이 발생합니다.
-
-## 제출 링크
-
-- 배포 URL: `https://codyssey-mission.vercel.app/`
-- GitHub 저장소 URL: `https://github.com/shannonlee-dev/codyssey-mission`
-- 과제 폴더 URL: `https://github.com/shannonlee-dev/codyssey-mission/tree/main/2026-main-4-2`
+- `src/components/ui` contains reusable UI that does not know about Supabase or note records.
+- `src/features/notes` owns note-specific forms, lists, reads, and mutations.
+- Loading, error, and empty states are rendered through shared components.
+- Controlled forms keep validation and previews predictable.
+- Successful mutations navigate intentionally and surface feedback through toast state.
+- `vercel.json` includes an SPA fallback so deep links resolve to `index.html`.
