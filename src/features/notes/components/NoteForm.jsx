@@ -23,6 +23,7 @@ export default function NoteForm({
     ...initialValues,
   }); /* 초기값과 빈값을 병합하여 누락된 필드가 없도록 함 */
   const [errors, setErrors] = useState({});
+  const [submissionError, setSubmissionError] = useState('');
 
   const preview = useMemo(
     () => ({
@@ -46,14 +47,21 @@ export default function NoteForm({
       return;
     }
 
-    await onSubmit(values);
+    setSubmissionError('');
+    try {
+      await onSubmit(values);
+    } catch (error) {
+      setSubmissionError(
+        error.message || '노트를 저장하지 못했습니다. 다시 시도하세요.',
+      );
+    }
   }
 
   return (
     <form className="form-layout" onSubmit={handleSubmit}>
-      {requestError ? (
+      {requestError || submissionError ? (
         <div className="form-alert" role="alert">
-          {requestError}
+          {requestError || submissionError}
         </div>
       ) : null}
 
