@@ -1,4 +1,11 @@
-export default function TextArea({ id, label, value, error, onChange, placeholder = '' }) {
+export default function TextArea({
+  id,
+  label,
+  value,
+  error,
+  onChange,
+  placeholder = '',
+}) {
   return (
     <label className="field" htmlFor={id}>
       <span>{label}</span>

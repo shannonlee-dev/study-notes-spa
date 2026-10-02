@@ -1,4 +1,10 @@
-export default function Button({ children, type = 'button', variant = 'primary', disabled = false, onClick }) {
+export default function Button({
+  children,
+  type = 'button',
+  variant = 'primary',
+  disabled = false,
+  onClick,
+}) {
   return (
     <button
       className={`button button--${variant}`}

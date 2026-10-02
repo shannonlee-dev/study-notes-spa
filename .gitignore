@@ -5,3 +5,16 @@ dist
 .env.*.local
 npm-debug.log*
 vite.config.*.timestamp-*
+
+# 로컬 편집기·운영체제 설정
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+# 실제 환경 설정은 커밋하지 않는다.
+.env
+.env.*
+!.env.example
+!.env.openai.example
+# 재현 과정에서 생성한 파일
+.runtime/

@@ -1,4 +1,12 @@
-export default function TextInput({ id, label, value, error, onChange, placeholder = '', type = 'text' }) {
+export default function TextInput({
+  id,
+  label,
+  value,
+  error,
+  onChange,
+  placeholder = '',
+  type = 'text',
+}) {
   return (
     <label className="field" htmlFor={id}>
       <span>{label}</span>

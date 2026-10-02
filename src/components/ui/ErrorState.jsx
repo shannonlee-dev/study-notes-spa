@@ -1,4 +1,8 @@
-export default function ErrorState({ title = '요청에 실패했습니다.', message, action }) {
+export default function ErrorState({
+  title = '요청에 실패했습니다.',
+  message,
+  action,
+}) {
   return (
     <div className="state state--error" role="alert">
       <strong>{title}</strong>

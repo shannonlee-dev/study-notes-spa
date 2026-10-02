@@ -6,7 +6,7 @@ import ErrorState from '../components/ui/ErrorState.jsx';
 import Loading from '../components/ui/Loading.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 import { useToast } from '../context/ToastContext.jsx';
-import { useNoteDetail } from '../features/notes/hooks/useNotes.js';
+import { useNoteDetail } from '../features/notes/hooks/useNoteDetail.js';
 
 export default function NoteDetailPage() {
   const { id } = useParams();
@@ -34,7 +34,12 @@ export default function NoteDetailPage() {
   if (loading) return <Loading label="상세 노트를 불러오는 중입니다." />;
 
   if (error) {
-    return <ErrorState message={error} action={<Button onClick={refetch}>다시 시도</Button>} />;
+    return (
+      <ErrorState
+        message={error}
+        action={<Button onClick={refetch}>다시 시도</Button>}
+      />
+    );
   }
 
   return (

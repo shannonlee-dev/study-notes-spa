@@ -32,7 +32,10 @@ export default function NotesPage() {
 
       {loading ? <Loading label="노트를 불러오는 중입니다." /> : null}
       {!loading && error ? (
-        <ErrorState message={error} action={<Button onClick={refetch}>다시 시도</Button>} />
+        <ErrorState
+          message={error}
+          action={<Button onClick={refetch}>다시 시도</Button>}
+        />
       ) : null}
       {!loading && !error && filteredNotes.length === 0 ? (
         <EmptyState
@@ -44,7 +47,9 @@ export default function NotesPage() {
           }
         />
       ) : null}
-      {!loading && !error && filteredNotes.length > 0 ? <NoteList notes={filteredNotes} /> : null}
+      {!loading && !error && filteredNotes.length > 0 ? (
+        <NoteList notes={filteredNotes} />
+      ) : null}
     </section>
   );
 }

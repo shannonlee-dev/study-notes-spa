@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import NoteForm from '../features/notes/components/NoteForm.jsx';
 import { useToast } from '../context/ToastContext.jsx';
-import { useNoteMutations } from '../features/notes/hooks/useNotes.js';
+import { useNoteMutations } from '../features/notes/hooks/useNoteMutations.js';
 
 export default function NewNotePage() {
   const navigate = useNavigate();

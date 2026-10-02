@@ -40,7 +40,13 @@ export default function LoginPage() {
       <h2>{isAuthenticated ? '로그인됨' : 'Supabase 로그인'}</h2>
       <form className="form-layout" onSubmit={handleSubmit}>
         {error ? <div className="form-alert">{error}</div> : null}
-        <TextInput id="email" label="이메일" type="email" value={email} onChange={setEmail} />
+        <TextInput
+          id="email"
+          label="이메일"
+          type="email"
+          value={email}
+          onChange={setEmail}
+        />
         <TextInput
           id="password"
           label="비밀번호"

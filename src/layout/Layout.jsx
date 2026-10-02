@@ -11,8 +11,8 @@ export default function Layout() {
     <div className="app-shell">
       <header className="site-header">
         <div>
-          <p className="eyebrow">React SPA Mission</p>
-          <h1>Field Notes</h1>
+          <p className="eyebrow">학습 노트 관리</p>
+          <h1>학습 노트</h1>
         </div>
         <nav className="site-nav" aria-label="주요 메뉴">
           <NavLink to="/">홈</NavLink>
