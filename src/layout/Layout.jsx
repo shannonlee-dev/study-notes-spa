@@ -5,7 +5,15 @@ import Button from '../components/ui/Button.jsx';
 
 export default function Layout() {
   const { isAuthenticated, signOut, user } = useAuth();
-  const { message, clear } = useToast();
+  const { message, clear, notify } = useToast();
+
+  async function handleSignOut() {
+    try {
+      await signOut();
+    } catch (error) {
+      notify(error.message || '로그아웃하지 못했습니다. 다시 시도하세요.');
+    }
+  }
 
   return (
     <div className="app-shell">
@@ -26,7 +34,7 @@ export default function Layout() {
         {isAuthenticated ? (
           <div className="session-box">
             <span>{user.email}</span>
-            <Button variant="ghost" onClick={signOut}>
+            <Button variant="ghost" onClick={handleSignOut}>
               로그아웃
             </Button>
           </div>
@@ -34,7 +42,7 @@ export default function Layout() {
       </header>
 
       {message ? (
-        <button className="toast" type="button" onClick={clear}>
+        <button className="toast" type="button" role="status" onClick={clear}>
           {message}
         </button>
       ) : null}
